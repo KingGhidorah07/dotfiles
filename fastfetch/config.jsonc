@@ -1,0 +1,27 @@
+{
+  "logo": {
+    "source": "~/.config/fastfetch/ghidorah.txt",
+    "color": {
+      "1": "yellow",
+      "2": "green"
+    }
+  },
+  "display": {
+    "separator": " → "
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "kernel",
+    "shell",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "disk",
+    "localip",
+    "battery",
+    "colors"
+  ]
+}

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐉 KingGhidorah Ubuntu Setup Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+  :root {
+    --base: #1e1e2e;
+    --mantle: #181825;
+    --crust: #11111b;
+    --surface0: #313244;
+    --surface1: #45475a;
+    --text: #cdd6f4;
+    --subtext: #a6adc8;
+    --mauve: #cba6f7;
+    --pink: #f5c2e7;
+    --green: #a6e3a1;
+    --yellow: #f9e2af;
+    --blue: #89b4fa;
+    --red: #f38ba8;
+    --teal: #94e2d5;
+    --peach: #fab387;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--base);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(203,166,247,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(137,180,250,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .dragon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--mauve), var(--blue), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    color: var(--subtext);
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--surface0);
+    border: 1px solid var(--surface1);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 0.8rem;
+    color: var(--mauve);
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Phase cards */
+  .phase {
+    margin-bottom: 48px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .phase-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .phase-number.mauve { background: rgba(203,166,247,0.15); color: var(--mauve); border: 1px solid rgba(203,166,247,0.3); }
+  .phase-number.blue { background: rgba(137,180,250,0.15); color: var(--blue); border: 1px solid rgba(137,180,250,0.3); }
+  .phase-number.green { background: rgba(166,227,161,0.15); color: var(--green); border: 1px solid rgba(166,227,161,0.3); }
+  .phase-number.yellow { background: rgba(249,226,175,0.15); color: var(--yellow); border: 1px solid rgba(249,226,175,0.3); }
+  .phase-number.peach { background: rgba(250,179,135,0.15); color: var(--peach); border: 1px solid rgba(250,179,135,0.3); }
+  .phase-number.pink { background: rgba(245,194,231,0.15); color: var(--pink); border: 1px solid rgba(245,194,231,0.3); }
+  .phase-number.teal { background: rgba(148,226,213,0.15); color: var(--teal); border: 1px solid rgba(148,226,213,0.3); }
+
+  .phase-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .phase-title span {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--subtext);
+    margin-top: 2px;
+  }
+
+  /* Steps */
+  .steps {
+    background: var(--mantle);
+    border: 1px solid var(--surface0);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .step {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--surface0);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--surface1);
+    padding-top: 3px;
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  .step-content { flex: 1; }
+
+  .step-title {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .step p {
+    color: var(--subtext);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  /* Code blocks */
+  .code-block {
+    background: var(--crust);
+    border: 1px solid var(--surface0);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--green);
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .code-block .comment { color: var(--surface1); }
+  .code-block .cmd { color: var(--blue); }
+  .code-block .str { color: var(--yellow); }
+  .code-block .flag { color: var(--peach); }
+
+  /* Copy button */
+  .code-wrapper { position: relative; }
+
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--surface0);
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--subtext);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover { background: var(--surface1); color: var(--text); }
+  .copy-btn.copied { color: var(--green); }
+
+  /* Tags */
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tag.ext { background: rgba(203,166,247,0.1); color: var(--mauve); border: 1px solid rgba(203,166,247,0.2); }
+  .tag.apt { background: rgba(137,180,250,0.1); color: var(--blue); border: 1px solid rgba(137,180,250,0.2); }
+  .tag.manual { background: rgba(249,226,175,0.1); color: var(--yellow); border: 1px solid rgba(249,226,175,0.2); }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--subtext);
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+
+  .checklist li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  /* Final section */
+  .final {
+    background: linear-gradient(135deg, rgba(203,166,247,0.08), rgba(137,180,250,0.08));
+    border: 1px solid rgba(203,166,247,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  .final h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--mauve);
+    margin-bottom: 8px;
+  }
+
+  .final p {
+    color: var(--subtext);
+    font-size: 0.95rem;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--surface1), transparent);
+    margin: 48px 0;
+  }
+
+  /* Note box */
+  .note {
+    background: rgba(249,226,175,0.06);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--subtext);
+  }
+
+  .note strong { color: var(--yellow); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <span class="dragon">🐉</span>
+    <h1>Ubuntu Setup Guide</h1>
+    <p class="subtitle">De Ubuntu stock a un setup pro con tema Catppuccin Mocha</p>
+    <span class="badge">Ubuntu 24.04+ · GNOME · Catppuccin Mocha</span>
+  </header>
+
+  <!-- FASE 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number mauve">1</div>
+      <div class="phase-title">Terminal Pro
+        <span>Zsh + Oh My Zsh + Starship + Kitty</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Zsh y cambiarlo como shell por defecto</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sudo apt update && sudo apt install zsh -y
+chsh -s $(which zsh)</div>
+          </div>
+          <div class="note"><strong>Nota:</strong> Cierra sesión y vuelve a entrar para que tome efecto.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Oh My Zsh</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Instalar plugins de Zsh</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</div>
+          </div>
+          <p>Luego edita <code style="color:var(--mauve)">~/.zshrc</code> y cambia la línea de plugins:</p>
+          <div class="code-block">plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Starship prompt</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">curl -sS https://starship.rs/install.sh | sh
+starship preset catppuccin-powerline -o ~/.config/starship.toml</div>
+          </div>
+          <p>Agrega al final de <code style="color:var(--mauve)">~/.zshrc</code>:</p>
+          <div class="code-block">eval "$(starship init zsh)"</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Kitty + Nerd Font</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sudo apt install kitty -y
+mkdir -p ~/.local/share/fonts && cd ~/.local/share/fonts
+curl -fLo "JetBrainsMono.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
+unzip JetBrainsMono.zip && rm JetBrainsMono.zip && fc-cache -fv</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number blue">2</div>
+      <div class="phase-title">Tema del Sistema
+        <span>Catppuccin GTK + Iconos Papirus</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Instalar herramientas</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sudo apt install gnome-tweaks gnome-shell-extensions papirus-icon-theme -y</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Descargar y aplicar tema Catppuccin GTK</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">mkdir -p ~/.themes && cd ~/.themes
+curl -fLo catppuccin.zip https://github.com/catppuccin/gtk/releases/download/v1.0.3/catppuccin-mocha-mauve-standard+default.zip
+unzip catppuccin.zip && rm catppuccin.zip
+gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-mauve-standard+default"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number green">3</div>
+      <div class="phase-title">Extensiones GNOME
+        <span>Blur, Rounded corners, Animaciones</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Extension Manager</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sudo apt install gnome-shell-extension-manager -y</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Instalar estas extensiones desde Extension Manager</div>
+          <div class="tags">
+            <span class="tag ext">Blur my Shell</span>
+            <span class="tag ext">Rounded Window Corners Reborn</span>
+            <span class="tag ext">User Themes</span>
+            <span class="tag ext">Burn My Windows</span>
+            <span class="tag ext">Compiz alike magic lamp</span>
+            <span class="tag ext">Transparent Top Bar</span>
+            <span class="tag ext">Vitals</span>
+            <span class="tag ext">Overview Background</span>
+            <span class="tag ext">Dash to Dock</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Aplicar tema al Shell</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">gsettings set org.gnome.shell.extensions.user-theme name "catppuccin-mocha-mauve-standard+default"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number yellow">4</div>
+      <div class="phase-title">VS Code
+        <span>Tema + Fuente + Extensiones</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Extensiones a instalar en VS Code</div>
+          <div class="tags">
+            <span class="tag ext">Catppuccin for VS Code</span>
+            <span class="tag ext">Catppuccin Icons</span>
+            <span class="tag ext">Prettier</span>
+            <span class="tag ext">GitLens</span>
+            <span class="tag ext">Error Lens</span>
+            <span class="tag ext">Auto Rename Tag</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Configuración en Settings (Ctrl+,)</div>
+          <ul class="checklist">
+            <li>Font Family → <code style="color:var(--mauve)">'JetBrainsMono Nerd Font Mono', monospace</code></li>
+            <li>Font Size → <code style="color:var(--mauve)">14</code></li>
+            <li>Font Ligatures → activado</li>
+            <li>Color Theme → <code style="color:var(--mauve)">Catppuccin Mocha</code></li>
+            <li>File Icon Theme → <code style="color:var(--mauve)">Catppuccin Mocha</code></li>
+            <li>Terminal Default Profile → <code style="color:var(--mauve)">zsh</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 5 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number peach">5</div>
+      <div class="phase-title">Wallpaper Automático
+        <span>Cambia según la hora del día</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Descargar wallpapers</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">mkdir -p ~/Imágenes/wallpapers && cd ~/Imágenes/wallpapers
+wget -O wall1.jpg "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920"
+wget -O wall2.jpg "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920"
+wget -O wall3.jpg "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1920"
+wget -O wall4.jpg "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920"
+wget -O wall5.jpg "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1920"
+wget -O wall6.jpg "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=1920"</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Crear script y cron</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">mkdir -p ~/.local/bin
+cat > ~/.local/bin/wallpaper-switcher.sh << 'EOF'
+#!/bin/bash
+WALL_DIR="$HOME/Imágenes/wallpapers"
+HOUR=$(date +%H)
+if [ $HOUR -ge 5 ] && [ $HOUR -lt 8 ]; then WALL="$WALL_DIR/wall1.jpg"
+elif [ $HOUR -ge 8 ] && [ $HOUR -lt 12 ]; then WALL="$WALL_DIR/wall2.jpg"
+elif [ $HOUR -ge 12 ] && [ $HOUR -lt 15 ]; then WALL="$WALL_DIR/wall3.jpg"
+elif [ $HOUR -ge 15 ] && [ $HOUR -lt 18 ]; then WALL="$WALL_DIR/wall4.jpg"
+elif [ $HOUR -ge 18 ] && [ $HOUR -lt 20 ]; then WALL="$WALL_DIR/wall5.jpg"
+else WALL="$WALL_DIR/wall6.jpg"; fi
+gsettings set org.gnome.desktop.background picture-uri "file://$WALL"
+gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALL"
+EOF
+chmod +x ~/.local/bin/wallpaper-switcher.sh
+(crontab -l 2>/dev/null; echo "0 * * * * DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus ~/.local/bin/wallpaper-switcher.sh") | crontab -</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 6 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number teal">6</div>
+      <div class="phase-title">Fastfetch + btop + Aliases
+        <span>El flex final</span>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Instalar fastfetch y btop</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">sudo apt install fastfetch btop -y
+echo "fastfetch" >> ~/.zshrc</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Aliases útiles — agregar a ~/.zshrc</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">alias ..="cd .."
+alias ll="ls -lah"
+alias gs="git status"
+alias ga="git add ."
+alias gc="git commit -m"
+alias gp="git push"
+alias gl="git log --oneline --graph"
+alias update="sudo apt update && sudo apt upgrade -y"
+alias myip="curl ifconfig.me"
+alias serve="python3 -m http.server 8000"</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Atajos de teclado</div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">copiar</button>
+            <div class="code-block">gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/','/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "VS Code"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "code"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "<Super>c"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name "Kitty"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command "kitty"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding "<Super>t"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="final">
+    <h2>🐉 KING OF THE MONSTERS</h2>
+    <p>Tu Ubuntu ya está al nivel de r/unixporn.<br>
+    Guarda tus dotfiles en GitHub para nunca perder este setup.</p>
+    <div style="margin-top:16px">
+      <span class="badge">github.com/kingghidorah07/dotfiles</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const code = btn.nextElementSibling.innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = '✓ copiado';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'copiar';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
